@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const {celebrate, Joi} = require("celebrate");
+const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
-const {getArticles, createArticle, deleteArticle} = require('../controllers/articles');
+const { getArticles, createArticle, deleteArticle } = require('../controllers/articles');
 
 router.get('/', getArticles);
 router.post('/', celebrate({
