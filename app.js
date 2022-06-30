@@ -3,12 +3,9 @@ const helmet = require('helmet');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const { celebrate, Joi, errors } = require('celebrate');
+const { errors } = require('celebrate');
 const rateLimit = require('express-rate-limit');
-const usersRoute = require('./routes/users');
-const articlesRoute = require('./routes/articles');
-const { login, createUser } = require('./controllers/users');
-const auth = require('./middlewares/auth');
+const routes = require('./routes/index');
 const serverErrors = require('./middlewares/server-errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
@@ -46,24 +43,7 @@ app.use(requestLogger);
 
 app.use(limiter);
 
-app.post('/signin', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required().min(2).max(30),
-  }),
-}), login);
-app.post('/signup', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required().min(2).max(30),
-    name: Joi.string().required().min(2).max(30),
-  }),
-}), createUser);
-
-app.use(auth);
-
-app.use('/users', usersRoute);
-app.use('/articles', articlesRoute);
+app.use('/', routes);
 
 app.use(errorLogger);
 
