@@ -12,7 +12,7 @@ const auth = require('./middlewares/auth');
 const serverErrors = require('./middlewares/server-errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, NODE_ENV, DB_ADDRESS } = process.env;
 
 const app = express();
 
@@ -25,8 +25,9 @@ const limiter = rateLimit({
 
 app.use(limiter);
 
+// DB_ADDRESS = 'mongodb://localhost:27017/news-explorer-db'
 // eslint-disable-next-line max-len
-mongoose.connect('mongodb://localhost:27017/news-explorer-db')
+mongoose.connect(NODE_ENV === 'production' ? DB_ADDRESS : 'mongodb://localhost:27017/news-explorer-db')
   .then(() => {
     // eslint-disable-next-line no-console
     console.log('Database connection successful');
