@@ -21,7 +21,6 @@ const articleSchema = new mongoose.Schema({
   date: {
     type: String,
     minlength: 8,
-    maxlength: 10,
     required: true,
   },
   source: {

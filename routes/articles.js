@@ -9,7 +9,7 @@ router.post('/', celebrate({
     keyword: Joi.string().required().min(1).max(254),
     title: Joi.string().required().min(1),
     text: Joi.string().required().min(1),
-    date: Joi.string().required().min(8).max(10),
+    date: Joi.string().required().min(8),
     source: Joi.string().required().min(1),
     link: Joi.string().required().custom((value, helpers) => {
       if (validator.isURL(value)) {
