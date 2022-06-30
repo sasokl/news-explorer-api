@@ -23,9 +23,6 @@ const limiter = rateLimit({
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 
-app.use(limiter);
-
-// DB_ADDRESS = 'mongodb://localhost:27017/news-explorer-db'
 // eslint-disable-next-line max-len
 mongoose.connect(NODE_ENV === 'production' ? DB_ADDRESS : 'mongodb://localhost:27017/news-explorer-db')
   .then(() => {
@@ -46,6 +43,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger);
+
+app.use(limiter);
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
