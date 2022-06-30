@@ -6,6 +6,6 @@ module.exports.getCurrentUser = (req, res, next) => User.findById(req.user._id)
     res.send({ data: user });
   })
   .catch((err) => {
-    if (err.name === 'CastError') next(new BadRequestErr('Some of user fields are wrong.'));
+    if (err.name === 'CastError') next(new BadRequestErr());
     else next(err);
   });

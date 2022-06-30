@@ -30,10 +30,10 @@ module.exports.createUser = (req, res, next) => {
     .catch((err) => {
       switch (err.name) {
         case 'ValidationError':
-          next(new BadRequestErr('Invalid data in user\'s fields'));
+          next(new BadRequestErr());
           break;
         case 'MongoError':
-          next(new ConflictErr('That Email address is already in use'));
+          next(new ConflictErr());
           break;
         default:
           next(err);
@@ -54,6 +54,6 @@ module.exports.login = (req, res, next) => {
       res.send({ token });
     })
     .catch(() => {
-      next(new UnauthorizedErr(`Authorization still Required: ${email}, ${password}`));
+      next(new UnauthorizedErr());
     });
 };

@@ -4,24 +4,18 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
-const rateLimit = require('express-rate-limit');
+const { DB_ADDRESS_DEV } = require('./utils/constants');
 const routes = require('./routes/index');
 const serverErrors = require('./middlewares/server-errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { limiter } = require('./utils/limiter');
 
 const { PORT = 3000, NODE_ENV, DB_ADDRESS } = process.env;
 
 const app = express();
 
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-});
-
 // eslint-disable-next-line max-len
-mongoose.connect(NODE_ENV === 'production' ? DB_ADDRESS : 'mongodb://localhost:27017/news-explorer-db')
+mongoose.connect(NODE_ENV === 'production' ? DB_ADDRESS : DB_ADDRESS_DEV)
   .then(() => {
     // eslint-disable-next-line no-console
     console.log('Database connection successful');

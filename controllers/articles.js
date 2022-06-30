@@ -17,7 +17,7 @@ module.exports.createArticle = (req, res, next) => {
   })
     .then((article) => res.send({ data: article }))
     .catch((err) => {
-      if (err.name === 'ValidationError') next(new BadRequestErr('Invalid data in article\'s fields'));
+      if (err.name === 'ValidationError') next(new BadRequestErr());
       else next(err);
     });
 };
@@ -25,14 +25,14 @@ module.exports.createArticle = (req, res, next) => {
 module.exports.deleteArticle = (req, res, next) => {
   Article.findByIdAndDelete(req.params.articleId)
     .orFail(() => {
-      throw new NotFoundError('No article found with that id');
+      throw new NotFoundError();
     })
     .then((article) => {
       if (article.owner.equals(req.user._id)) res.send({ data: article });
-      else throw new ForbiddenErr('You do not have permission to access this resource.');
+      else throw new ForbiddenErr();
     })
     .catch((err) => {
-      if (err.name === 'CastError') next(new BadRequestErr('Some of article fields are wrong.'));
+      if (err.name === 'CastError') next(new BadRequestErr());
       else next(err);
     });
 };
