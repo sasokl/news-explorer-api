@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const BadRequestErr = require('../errors/bad-request-err');
 const UnauthorizedErr = require('../errors/unauthorized-err');
+const ConflictErr = require('../errors/conflict-err');
 
 require('dotenv').config();
 
@@ -36,8 +37,13 @@ module.exports.createUser = (req, res, next) => {
       name: user.name,
     }))
     .catch((err) => {
-      if (err.name === 'ValidationError') next(new BadRequestErr('Invalid data in user\'s fields'));
-      else next(err);
+      switch (err.name) {
+        case 'ValidationError': next(new BadRequestErr('Invalid data in user\'s fields'));
+          break;
+        case 'MongoError': next(new ConflictErr('That Email address is already in use'));
+          break;
+        default: next(err);
+      }
     });
 };
 
