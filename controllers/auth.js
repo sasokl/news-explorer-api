@@ -32,7 +32,7 @@ module.exports.createUser = (req, res, next) => {
         case 'ValidationError':
           next(new BadRequestErr());
           break;
-        case 'MongoError':
+        case 'MongoServerError':
           next(new ConflictErr());
           break;
         default:
