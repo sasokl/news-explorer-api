@@ -4,6 +4,7 @@ const User = require('../models/user');
 const BadRequestErr = require('../errors/bad-request-err');
 const ConflictErr = require('../errors/conflict-err');
 const UnauthorizedErr = require('../errors/unauthorized-err');
+const { ERR_MSG } = require('../utils/constants');
 
 require('dotenv').config();
 
@@ -33,7 +34,7 @@ module.exports.createUser = (req, res, next) => {
           next(new BadRequestErr());
           break;
         case 'MongoServerError':
-          next(new ConflictErr());
+          next(new ConflictErr(ERR_MSG.emailExists));
           break;
         default:
           next(err);
@@ -53,7 +54,5 @@ module.exports.login = (req, res, next) => {
       );
       res.send({ token });
     })
-    .catch(() => {
-      next(new UnauthorizedErr());
-    });
+    .catch((err) => next(err));
 };

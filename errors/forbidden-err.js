@@ -1,8 +1,8 @@
 const { ERR_MSG } = require('../utils/constants');
 
 class ForbiddenErr extends Error {
-  constructor() {
-    super(ERR_MSG.forbidden);
+  constructor(message = ERR_MSG.forbidden) {
+    super(message);
     this.statusCode = 403;
   }
 }
