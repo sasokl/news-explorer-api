@@ -3,7 +3,7 @@ const BadRequestErr = require('../errors/bad-request-err');
 const NotFoundError = require('../errors/not-found-err');
 const ForbiddenErr = require('../errors/forbidden-err');
 
-module.exports.getArticles = (req, res, next) => Article.find({})
+module.exports.getArticles = (req, res, next) => Article.find({ owner: req.user._id })
   .then((articles) => res.send({ data: articles }))
   .catch(next);
 
