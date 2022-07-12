@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const BadRequestErr = require('../errors/bad-request-err');
 const ConflictErr = require('../errors/conflict-err');
-const UnauthorizedErr = require('../errors/unauthorized-err');
 const { ERR_MSG } = require('../utils/constants');
 
 require('dotenv').config();
@@ -31,7 +30,7 @@ module.exports.createUser = (req, res, next) => {
     .catch((err) => {
       switch (err.name) {
         case 'ValidationError':
-          next(new BadRequestErr());
+          next(new BadRequestErr('dead'));
           break;
         case 'MongoServerError':
           next(new ConflictErr(ERR_MSG.emailExists));
