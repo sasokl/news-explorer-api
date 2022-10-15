@@ -1,5 +1,5 @@
 # Final Project: News Explorer (Back-End)
-[Site Link](https://www.ab-news-explorer.students.nomoreparties.sbs)
+[Site Link](https://www.ab-news-explorer.students.nomoreparties.sbs)  
 [API link](https://api.ab-news-explorer.students.nomoreparties.sbs)
 
 ## About The Project
